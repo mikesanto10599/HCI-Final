@@ -1,0 +1,23 @@
+{
+  "name": "hci-final",
+  "version": "1.0.0",
+  "description": "Virtual Pet game for HCI Final Project",
+  "main": "main.js",
+  "dependencies": {
+    "phaser": "^3.54.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikesanto10599/HCI-Final.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mikesanto10599/HCI-Final/issues"
+  },
+  "homepage": "https://github.com/mikesanto10599/HCI-Final#readme"
+}
