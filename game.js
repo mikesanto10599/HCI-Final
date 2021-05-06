@@ -13,11 +13,17 @@ pixi.utils.sayHello(type)
 let app = new pixi.Application({ 
     width: 350,         // default: 800
     height: 350,        // default: 600
-    antialias: true,    // default: false
+    antialias: false,    // default: false
     transparent: true, // default: false
     resolution: 1,
 }
 );
+
+var renderer = PIXI.autoDetectRenderer(WIDTH, HEIGHT);document.body.appendChild(renderer.view);
+renderer.view.style.position = 'absolute';
+renderer.view.style.left = '50%';
+renderer.view.style.top = '50%';
+renderer.view.style.transform = 'translate3d( -50%, -50%, 0 )';
 
 document.body.appendChild(app.view);
 
