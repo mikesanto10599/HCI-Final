@@ -59,6 +59,7 @@ function setup() {
     // console.log(animatedSprite);
 
     const duckT = pixi.Texture.from('images/duck.png');
+    const finishT = pixi.Texture.from('images/finish.png');
     const exerciseT = pixi.Texture.from('images/exercise.png');
     const sleepingT = pixi.Texture.from('images/sleeping.png');
     const workingT = pixi.Texture.from('images/working.png');
@@ -66,6 +67,7 @@ function setup() {
     const deskT = pixi.Texture.from('images/desk.png');
     const dumbellT = pixi.Texture.from('images/dumbell.png');
     const duck = new pixi.Sprite(duckT);
+    const finish = new pixi.Sprite(finishT);
     const exercise = new pixi.Sprite(exerciseT);
     const sleeping = new pixi.Sprite(sleepingT);
     const working = new pixi.Sprite(workingT);
@@ -78,6 +80,13 @@ function setup() {
     duck.y = app.screen.height/2;
 
     app.stage.addChild(duck);
+
+    finish.anchor.set(0.5);
+    finish.x = 80;
+    finish.y = 300;
+    finish.visible = false;
+
+    app.stage.addChild(finish);
 
     working.width = 50;
     working.height= 50;
@@ -106,6 +115,10 @@ function setup() {
     // desk.height = 300;
 
     
+
+    finish.interactive = true;
+    finish.buttonMode = true;
+
 
     dumbell.interactive = true;
     dumbell.buttonMode = true;
@@ -136,17 +149,30 @@ function setup() {
         .on('pointerdown', onButtonDownW);
         // .on('pointerupoutside', onButtonUp);
 
+    finish
+        .on('pointerdown', onButtonDownF);
 
     app.stage.addChild(dumbell);
     app.stage.addChild(bed);
     app.stage.addChild(desk);
     
     function onButtonDownE() {
+        finish.visible = true;
         this.isdown = true;
         dumbell.texture = exerciseT;
         //bed.visible = false;
         duck.visible = false;
         this.alpha = 1;
+    }
+
+    function onButtonDownF() {
+        this.isdown = true;
+        dumbell.texture = dumbellT;
+        bed.texture = bedT;
+        desk.texture = deskT;
+        duck.visible = true;
+        this.alpha = 1;
+        finish.visible = false;
     }
 
     // function onButtonUp() {
@@ -158,8 +184,7 @@ function setup() {
     // }
 
     function onButtonDownS() {
-        // current bed position: x: 280,y: app.screen.height/2
-
+        finish.visible = true;
         this.isdown = true;
         bed.texture = sleepingT;
         //bed.visible = false;
@@ -167,6 +192,7 @@ function setup() {
         this.alpha = 1;
     }
     function onButtonDownW() {
+        finish.visible = true;
         this.isdown = true;
         desk.texture = workingT; //should be desk.texture = workingT
         duck.visible = false;
