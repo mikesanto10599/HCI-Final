@@ -19,12 +19,6 @@ let app = new pixi.Application({
 }
 );
 
-var renderer = PIXI.autoDetectRenderer(WIDTH, HEIGHT);document.body.appendChild(renderer.view);
-renderer.view.style.position = 'absolute';
-renderer.view.style.left = '50%';
-renderer.view.style.top = '50%';
-renderer.view.style.transform = 'translate3d( -50%, -50%, 0 )';
-
 document.body.appendChild(app.view);
 
 const background = pixi.Sprite.from('images/room2.png');
@@ -39,7 +33,7 @@ app.stage.addChild(background)
 
 
 loader
-  .add("5.json")
+  .add("animations/duck.json")
   .add("images/duck.png")
   .add("images/exercise.png")
   .add("images/sleeping.png")
@@ -47,22 +41,30 @@ loader
   .add("images/bed.png")
   .add("images/desk.png")
   .add("images/dumbell.png")
+  .add("animations/exercise.json")
   .load(setup);
 
 //This `setup` function will run when the image has loaded
 function setup() {
-    // let sheet = loader.resources["5.json"].spritesheet;
-    // animatedSprite = new pixi.AnimatedSprite(sheet.animations["duck"]);
 
-    // animatedSprite.x = app.screen.width/2;
-    // animatedSprite.y = app.screen.height/2;
-    // animatedSprite.achor.set(0.5);
-    // animatedSprite.animationSpeed = 0.5;
-    // animatedSprite.play();
+    let exerciseSheet = pixi.Loader.shared.resources["animations/exercise.json"].spritesheet;
+    let duckSheet = pixi.Loader.shared.resources["animations/duck.json"].spritesheet;
+    //animations
+    animatedExercise = new pixi.AnimatedSprite(exerciseSheet.animations["exercise"]);
+    animatedDuck = new pixi.AnimatedSprite(duckSheet.animations["duck"]);
 
-    // app.stage.addChild(animatedSprite);
+    animatedExercise.animationSpeed = 0.13; 
+    animatedExercise.play();
+    app.stage.addChild(animatedExercise);
+    animatedExercise.visible = false;
+    animatedExercise.height = 100;
+    animatedExercise.width = 100;
 
-    // console.log(animatedSprite);
+    animatedDuck.animationSpeed = 0.13; 
+    animatedDuck.play();
+    app.stage.addChild(animatedDuck);
+    animatedDuck.height = 100;
+    animatedDuck.width = 100;
 
     const duckT = pixi.Texture.from('images/duck.png');
     const finishT = pixi.Texture.from('images/finish.png');
@@ -84,6 +86,9 @@ function setup() {
     duck.anchor.set(0.5);
     duck.x = app.screen.width/2;
     duck.y = app.screen.height/2;
+    duck.visible = false;
+    animatedDuck.x = duck.x - 70;
+    animatedDuck.y = duck.y - 30;
 
     app.stage.addChild(duck);
 
@@ -165,18 +170,23 @@ function setup() {
     function onButtonDownE() {
         finish.visible = true;
         this.isdown = true;
-        dumbell.texture = exerciseT;
+        //dumbell.texture = exerciseT;
+        dumbell.visible = false;
+        animatedExercise.x = dumbell.x - 50;
+        animatedExercise.y = dumbell.y - 50;
+        animatedExercise.visible = true; 
         //bed.visible = false;
-        duck.visible = false;
+        animatedDuck.visible = false;
         this.alpha = 1;
     }
 
     function onButtonDownF() {
         this.isdown = true;
-        dumbell.texture = dumbellT;
+        dumbell.visible = true;
+        animatedExercise.visible = false;
         bed.texture = bedT;
         desk.texture = deskT;
-        duck.visible = true;
+        animatedDuck.visible = true;
         this.alpha = 1;
         finish.visible = false;
     }
