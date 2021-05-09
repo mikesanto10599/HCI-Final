@@ -26,24 +26,19 @@ background.width = app.screen.width;
 background.height = app.screen.height;
 app.stage.addChild(background)
 
-// app.renderer.view.style.position = "absolute";
-// app.renderer.view.style.display = "block";
-// app.renderer.autoResize = true;
-// app.renderer.resize(window.innerWidth, window.innerHeight);
-
 
 loader
   .add("animations/duck.json")
   .add("images/duck.png")
-  .add("images/exercise.png")
-  .add("images/sleeping.png")
-  .add("images/working.png")
   .add("images/bed.png")
   .add("images/desk.png")
   .add("images/dumbell.png")
   .add("animations/exercise.json")
   .add("animations/working.json")
   .add("animations/sleeping.json")
+  .add("images/sleepButton.png")
+  .add("images/workButton.png")
+  .add("images/exerciseButton.png")
   .load(setup);
 
 //This `setup` function will run when the image has loaded
@@ -86,20 +81,20 @@ function setup() {
 
     const duckT = pixi.Texture.from('images/duck.png');
     const finishT = pixi.Texture.from('images/finish.png');
-    const exerciseT = pixi.Texture.from('images/exercise.png');
-    const sleepingT = pixi.Texture.from('images/sleeping.png');
-    const workingT = pixi.Texture.from('images/working.png');
     const bedT = pixi.Texture.from('images/bed.png');
     const deskT = pixi.Texture.from('images/desk.png');
     const dumbellT = pixi.Texture.from('images/dumbell.png');
+    const sleepButtonT = pixi.Texture.from('images/sleepButton.png');
+    const workButtonT = pixi.Texture.from('images/workButton.png');
+    const exerciseButtonT = pixi.Texture.from('images/exerciseButton.png');
     const duck = new pixi.Sprite(duckT);
     const finish = new pixi.Sprite(finishT);
-    const exercise = new pixi.Sprite(exerciseT);
-    const sleeping = new pixi.Sprite(sleepingT);
-    const working = new pixi.Sprite(workingT);
     const bed = new pixi.Sprite(bedT); 
     const desk = new pixi.Sprite(deskT);
     const dumbell = new pixi.Sprite(dumbellT);
+    const sleepButton = new pixi.Sprite(sleepButtonT);
+    const workButton = new pixi.Sprite(workButtonT);
+    const exerciseButton = new pixi.Sprite(exerciseButtonT);
 
     duck.anchor.set(0.5);
     duck.x = app.screen.width/2;
@@ -112,78 +107,65 @@ function setup() {
 
     finish.anchor.set(0.5);
     finish.x = 80;
-    finish.y = 300;
+    finish.y = 310;
     finish.visible = false;
 
     app.stage.addChild(finish);
 
-    working.width = 50;
-    working.height= 50;
-    
-
-    const buttons = [];
-
-    const buttonPositions = [
+    const furniturePositions = [
         300,290,
         50,100,
         300,app.screen.height/2
     ];
 
     dumbell.anchor.set(0.5);
-    dumbell.x = buttonPositions[0*2];
-    dumbell.y = buttonPositions[0*2+1];
+    dumbell.x = furniturePositions[0*2];
+    dumbell.y = furniturePositions[0*2+1];
 
     bed.anchor.set(0.5);
-    bed.x = buttonPositions[2*2];
-    bed.y = buttonPositions[2*2+1];
+    bed.x = furniturePositions[2*2];
+    bed.y = furniturePositions[2*2+1];
     animatedSleeping.x = bed.x - 80;
     animatedSleeping.y = bed.y-90;
 
     desk.anchor.set(0.5);
-    desk.x = buttonPositions[1*2];
-    desk.y = buttonPositions[1*2+1];
+    desk.x = furniturePositions[1*2];
+    desk.y = furniturePositions[1*2+1];
     animatedWorking.x = desk.x-75;
     animatedWorking.y = desk.y-80;
-    // desk.width = 300;
-    // desk.height = 300;
 
-    
+    exerciseButton.anchor.set(0.5);
+    exerciseButton.x = 60;
+    exerciseButton.y = 325;
+    exerciseButton.visible = true;
+    app.stage.addChild(exerciseButton);
+
+    sleepButton.anchor.set(0.5);
+    sleepButton.x = 170;
+    sleepButton.y = 325;
+    sleepButton.visible = true;
+    app.stage.addChild(sleepButton);
+
+    workButton.anchor.set(0.5);
+    workButton.x = 275;
+    workButton.y = 325;
+    workButton.visible = true;
+    app.stage.addChild(workButton);
 
     finish.interactive = true;
     finish.buttonMode = true;
+    sleepButton.interactive = true;
+    sleepButton.buttonMode = true;
+    workButton.interactive = true;
+    workButton.buttonMode = true;
+    exerciseButton.interactive = true;
+    exerciseButton.buttonMode = true;
 
 
-    dumbell.interactive = true;
-    dumbell.buttonMode = true;
-
-    bed.interactive = true;
-    bed.buttonMode = true;
-
-    desk.interactive = true;
-    desk.buttonMode = true;
-
-    // duck.interactive = true;
-    // duck.buttonMode = true;
-
-    dumbell 
-        .on('pointerdown', onButtonDownE);
-        //.on('pointerdown', onButtonDownD);
-        // .on('pointerupoutside', onButtonUp);
-        // .on('pointerover', onButtonOver)
-        // .on('pointerout', onButtonOut);
-
-    
-    bed 
-        .on('pointerdown', onButtonDownS);
-        // .on('pointerupoutside', onButtonUp);
-
-
-    desk
-        .on('pointerdown', onButtonDownW);
-        // .on('pointerupoutside', onButtonUp);
-
-    finish
-        .on('pointerdown', onButtonDownF);
+    exerciseButton.on('pointerdown', onButtonDownE);
+    sleepButton.on('pointerdown', onButtonDownS);
+    workButton.on('pointerdown', onButtonDownW);
+    finish.on('pointerdown', onButtonDownF);
 
     app.stage.addChild(dumbell);
     app.stage.addChild(bed);
@@ -191,6 +173,9 @@ function setup() {
     
     function onButtonDownE() {
         finish.visible = true;
+        exerciseButton.visible = false;
+        sleepButton.visible = false;
+        workButton.visible = false;
         this.isdown = true;
         dumbell.visible = false;
         animatedExercise.x = dumbell.x - 50;
@@ -211,10 +196,16 @@ function setup() {
         animatedDuck.visible = true;
         this.alpha = 1;
         finish.visible = false;
+        exerciseButton.visible = true;
+        sleepButton.visible = true;
+        workButton.visible = true;
     }
 
     function onButtonDownS() {
         finish.visible = true;
+        exerciseButton.visible = false;
+        sleepButton.visible = false;
+        workButton.visible = false;
         this.isdown = true;
         bed.visible = false;
         //bed.visible = false;
@@ -224,6 +215,9 @@ function setup() {
     }
     function onButtonDownW() {
         finish.visible = true;
+        exerciseButton.visible = false;
+        sleepButton.visible = false;
+        workButton.visible = false;
         this.isdown = true;
         desk.visible = false;
         animatedDuck.visible = false;
