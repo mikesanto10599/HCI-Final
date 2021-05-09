@@ -42,6 +42,8 @@ loader
   .add("images/desk.png")
   .add("images/dumbell.png")
   .add("animations/exercise.json")
+  .add("animations/working.json")
+  .add("animations/sleeping.json")
   .load(setup);
 
 //This `setup` function will run when the image has loaded
@@ -49,9 +51,13 @@ function setup() {
 
     let exerciseSheet = pixi.Loader.shared.resources["animations/exercise.json"].spritesheet;
     let duckSheet = pixi.Loader.shared.resources["animations/duck.json"].spritesheet;
+    let workingSheet = pixi.Loader.shared.resources["animations/working.json"].spritesheet;
+    let sleepingSheet = pixi.Loader.shared.resources["animations/sleeping.json"].spritesheet;
     //animations
     animatedExercise = new pixi.AnimatedSprite(exerciseSheet.animations["exercise"]);
     animatedDuck = new pixi.AnimatedSprite(duckSheet.animations["duck"]);
+    animatedWorking = new pixi.AnimatedSprite(workingSheet.animations["working"]);
+    animatedSleeping = new pixi.AnimatedSprite(sleepingSheet.animations["sleeping"]);
 
     animatedExercise.animationSpeed = 0.13; 
     animatedExercise.play();
@@ -65,6 +71,18 @@ function setup() {
     app.stage.addChild(animatedDuck);
     animatedDuck.height = 100;
     animatedDuck.width = 100;
+
+    animatedWorking.animationSpeed = 0.13; 
+    animatedWorking.play();
+    app.stage.addChild(animatedWorking);
+    animatedWorking.visible = false;
+
+    animatedSleeping.animationSpeed = 0.13; 
+    animatedSleeping.play();
+    app.stage.addChild(animatedSleeping);
+    animatedSleeping.width = 190;
+    animatedSleeping.height = 200;
+    animatedSleeping.visible = false;
 
     const duckT = pixi.Texture.from('images/duck.png');
     const finishT = pixi.Texture.from('images/finish.png');
@@ -108,7 +126,7 @@ function setup() {
     const buttonPositions = [
         300,290,
         50,100,
-        280,app.screen.height/2
+        300,app.screen.height/2
     ];
 
     dumbell.anchor.set(0.5);
@@ -118,10 +136,14 @@ function setup() {
     bed.anchor.set(0.5);
     bed.x = buttonPositions[2*2];
     bed.y = buttonPositions[2*2+1];
+    animatedSleeping.x = bed.x - 80;
+    animatedSleeping.y = bed.y-90;
 
     desk.anchor.set(0.5);
     desk.x = buttonPositions[1*2];
     desk.y = buttonPositions[1*2+1];
+    animatedWorking.x = desk.x-75;
+    animatedWorking.y = desk.y-80;
     // desk.width = 300;
     // desk.height = 300;
 
@@ -170,12 +192,10 @@ function setup() {
     function onButtonDownE() {
         finish.visible = true;
         this.isdown = true;
-        //dumbell.texture = exerciseT;
         dumbell.visible = false;
         animatedExercise.x = dumbell.x - 50;
         animatedExercise.y = dumbell.y - 50;
         animatedExercise.visible = true; 
-        //bed.visible = false;
         animatedDuck.visible = false;
         this.alpha = 1;
     }
@@ -183,35 +203,31 @@ function setup() {
     function onButtonDownF() {
         this.isdown = true;
         dumbell.visible = true;
+        desk.visible = true;
+        bed.visible = true;
         animatedExercise.visible = false;
-        bed.texture = bedT;
-        desk.texture = deskT;
+        animatedSleeping.visible = false;
+        animatedWorking.visible = false;
         animatedDuck.visible = true;
         this.alpha = 1;
         finish.visible = false;
     }
 
-    // function onButtonUp() {
-    //     this.isdown = true;
-    //     duck.texture = duckT;
-    //     duck.x = app.screen.width/2;
-    //     duck.y = app.screen.height/2;
-    //     this.alpha = 1;
-    // }
-
     function onButtonDownS() {
         finish.visible = true;
         this.isdown = true;
-        bed.texture = sleepingT;
+        bed.visible = false;
         //bed.visible = false;
-        duck.visible = false;
+        animatedDuck.visible = false;
+        animatedSleeping.visible = true;
         this.alpha = 1;
     }
     function onButtonDownW() {
         finish.visible = true;
         this.isdown = true;
-        desk.texture = workingT; //should be desk.texture = workingT
-        duck.visible = false;
+        desk.visible = false;
+        animatedDuck.visible = false;
+        animatedWorking.visible = true;
         this.alpha = 1;
     }
 
