@@ -80,6 +80,7 @@ function setup() {
     animatedSleeping.height = 200;
     animatedSleeping.visible = false;
 
+    const startButton = new pixi.Sprite(startButton);
     const duckT = pixi.Texture.from('images/duck.png');
     const finishT = pixi.Texture.from('images/finish.png');
     const bedT = pixi.Texture.from('images/bed.png');
@@ -93,7 +94,6 @@ function setup() {
     const bed = new pixi.Sprite(bedT); 
     const desk = new pixi.Sprite(deskT);
     const dumbell = new pixi.Sprite(dumbellT);
-    const startButton = new pixi.Sprite(startButton);
     const sleepButton = new pixi.Sprite(sleepButtonT);
     const workButton = new pixi.Sprite(workButtonT);
     const exerciseButton = new pixi.Sprite(exerciseButtonT);
