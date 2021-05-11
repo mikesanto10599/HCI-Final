@@ -80,12 +80,12 @@ function setup() {
     animatedSleeping.height = 200;
     animatedSleeping.visible = false;
 
-    const startButton = new pixi.Sprite(startButton);
     const duckT = pixi.Texture.from('images/duck.png');
     const finishT = pixi.Texture.from('images/finish.png');
     const bedT = pixi.Texture.from('images/bed.png');
     const deskT = pixi.Texture.from('images/desk.png');
     const dumbellT = pixi.Texture.from('images/dumbell.png');
+    const startButtonT = pixi.Texture.from('images/startButton.png');
     const sleepButtonT = pixi.Texture.from('images/sleepButton.png');
     const workButtonT = pixi.Texture.from('images/workButton.png');
     const exerciseButtonT = pixi.Texture.from('images/exerciseButton.png');
@@ -94,6 +94,7 @@ function setup() {
     const bed = new pixi.Sprite(bedT); 
     const desk = new pixi.Sprite(deskT);
     const dumbell = new pixi.Sprite(dumbellT);
+    const startButton = new pixi.Sprite(startButtonT);
     const sleepButton = new pixi.Sprite(sleepButtonT);
     const workButton = new pixi.Sprite(workButtonT);
     const exerciseButton = new pixi.Sprite(exerciseButtonT);
@@ -138,7 +139,7 @@ function setup() {
 
     startButton.anchor.set(0.5);
     startButton.x = 170;
-    startButton.y = 100;
+    startButton.y = 150;
     startButton.visible = true;
     app.stage.addChild(startButton);
 
@@ -160,6 +161,8 @@ function setup() {
     workButton.visible = false;
     app.stage.addChild(workButton);
 
+    startButton.interactive = true;
+    startButton.buttonMode = true;
     finish.interactive = true;
     finish.buttonMode = true;
     sleepButton.interactive = true;
