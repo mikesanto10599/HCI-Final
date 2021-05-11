@@ -139,7 +139,7 @@ function setup() {
 
     startButton.anchor.set(0.5);
     startButton.x = 170;
-    startButton.y = 150;
+    startButton.y = 180;
     startButton.visible = true;
     app.stage.addChild(startButton);
 
