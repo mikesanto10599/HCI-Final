@@ -186,10 +186,10 @@ function setup() {
     app.stage.addChild(desk);
 
     function onButtonDownBegin() {
-        const background = pixi.Sprite.from('images/room2.png');
+        const background2 = pixi.Sprite.from('images/room2.png');
         background.width = app.screen.width;
         background.height = app.screen.height;
-        app.stage.addChild(background)
+        app.stage.addChild(background2)
         startButton.visible = false;
         exerciseButton.visible = true;
         sleepButton.visible = true;
