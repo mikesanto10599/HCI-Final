@@ -194,12 +194,12 @@ function setup() {
         dumbell.visible = true;
         desk.visible = true;
         bed.visible = true;
-        const background = pixi.Sprite.from('images/room2.png');
-        background.width = app.screen.width;
-        background.height = app.screen.height;
-        app.stage.addChild(background)
-        animatedDuck.visible = true;
         this.isdown = true;
+        const background = pixi.Sprite.from('images/room2.png');
+        // background.width = app.screen.width;
+        // background.height = app.screen.height;
+        // app.stage.addChild(background)
+        animatedDuck.visible = true;
         this.alpha = 1;
     }
     
