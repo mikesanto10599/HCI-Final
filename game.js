@@ -21,7 +21,7 @@ let app = new pixi.Application({
 
 document.body.appendChild(app.view);
 
-const background = pixi.Sprite.from('images/room2.png');
+const background = pixi.Sprite.from('images/House-1.png');
 background.width = app.screen.width;
 background.height = app.screen.height;
 app.stage.addChild(background)
@@ -36,6 +36,7 @@ loader
   .add("animations/exercise.json")
   .add("animations/working.json")
   .add("animations/sleeping.json")
+  .add("images/startButton.png")
   .add("images/sleepButton.png")
   .add("images/workButton.png")
   .add("images/exerciseButton.png")
@@ -92,6 +93,7 @@ function setup() {
     const bed = new pixi.Sprite(bedT); 
     const desk = new pixi.Sprite(deskT);
     const dumbell = new pixi.Sprite(dumbellT);
+    const startButton = new pixi.Sprite(startButton);
     const sleepButton = new pixi.Sprite(sleepButtonT);
     const workButton = new pixi.Sprite(workButtonT);
     const exerciseButton = new pixi.Sprite(exerciseButtonT);
@@ -134,22 +136,28 @@ function setup() {
     animatedWorking.x = desk.x-75;
     animatedWorking.y = desk.y-80;
 
+    startButton.anchor.set(0.5);
+    startButton.x = 170;
+    startButton.y = 100;
+    startButton.visible = true;
+    app.stage.addChild(startButton);
+
     exerciseButton.anchor.set(0.5);
     exerciseButton.x = 60;
     exerciseButton.y = 325;
-    exerciseButton.visible = true;
+    exerciseButton.visible = false;
     app.stage.addChild(exerciseButton);
 
     sleepButton.anchor.set(0.5);
     sleepButton.x = 170;
     sleepButton.y = 325;
-    sleepButton.visible = true;
+    sleepButton.visible = false;
     app.stage.addChild(sleepButton);
 
     workButton.anchor.set(0.5);
     workButton.x = 275;
     workButton.y = 325;
-    workButton.visible = true;
+    workButton.visible = false;
     app.stage.addChild(workButton);
 
     finish.interactive = true;
@@ -161,7 +169,7 @@ function setup() {
     exerciseButton.interactive = true;
     exerciseButton.buttonMode = true;
 
-
+    startButton.on('pointerdown', onButtonDownBegin);
     exerciseButton.on('pointerdown', onButtonDownE);
     sleepButton.on('pointerdown', onButtonDownS);
     workButton.on('pointerdown', onButtonDownW);
@@ -170,6 +178,24 @@ function setup() {
     app.stage.addChild(dumbell);
     app.stage.addChild(bed);
     app.stage.addChild(desk);
+
+    function onButtonDownBegin() {
+        startButton.visible = true;
+        finish.visible = false;
+        exerciseButton.visible = true;
+        sleepButton.visible = true;
+        workButton.visible = true;
+        dumbell.visible = true;
+        desk.visible = true;
+        bed.visible = true;
+        const background = pixi.Sprite.from('images/room2.png');
+        background.width = app.screen.width;
+        background.height = app.screen.height;
+        app.stage.addChild(background)
+        animatedDuck.visible = true;
+        this.isdown = true;
+        this.alpha = 1;
+    }
     
     function onButtonDownE() {
         finish.visible = true;
