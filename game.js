@@ -124,16 +124,19 @@ function setup() {
     dumbell.anchor.set(0.5);
     dumbell.x = furniturePositions[0*2];
     dumbell.y = furniturePositions[0*2+1];
+    dumbell.visible = false;
 
     bed.anchor.set(0.5);
     bed.x = furniturePositions[2*2];
     bed.y = furniturePositions[2*2+1];
+    bed.visible = false;
     animatedSleeping.x = bed.x - 80;
     animatedSleeping.y = bed.y-90;
 
     desk.anchor.set(0.5);
     desk.x = furniturePositions[1*2];
     desk.y = furniturePositions[1*2+1];
+    desk.visible = false;
     animatedWorking.x = desk.x-75;
     animatedWorking.y = desk.y-80;
 
