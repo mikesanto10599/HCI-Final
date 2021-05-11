@@ -187,8 +187,8 @@ function setup() {
 
     function onButtonDownBegin() {
         const background2 = pixi.Sprite.from('images/room2.png');
-        background.width = app.screen.width;
-        background.height = app.screen.height;
+        background2.width = app.screen.width;
+        background2.height = app.screen.height;
         app.stage.addChild(background2)
         startButton.visible = false;
         exerciseButton.visible = true;
