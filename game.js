@@ -186,8 +186,11 @@ function setup() {
     app.stage.addChild(desk);
 
     function onButtonDownBegin() {
-        startButton.visible = true;
-        finish.visible = false;
+        const background = pixi.Sprite.from('images/room2.png');
+        background.width = app.screen.width;
+        background.height = app.screen.height;
+        app.stage.addChild(background)
+        startButton.visible = false;
         exerciseButton.visible = true;
         sleepButton.visible = true;
         workButton.visible = true;
@@ -195,10 +198,6 @@ function setup() {
         desk.visible = true;
         bed.visible = true;
         this.isdown = true;
-        const background = pixi.Sprite.from('images/room2.png');
-        background.width = app.screen.width;
-        background.height = app.screen.height;
-        app.stage.addChild(background)
         animatedDuck.visible = true;
         this.alpha = 1;
     }
