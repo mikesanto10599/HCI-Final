@@ -20,7 +20,7 @@ let app = new pixi.Application({
 );
 
 document.body.appendChild(app.view);
-
+//Josue: Changed the background to be the house (currently the duck is not becoming invisible)
 const background = pixi.Sprite.from('images/House-1.png');
 background.width = app.screen.width;
 background.height = app.screen.height;
@@ -85,6 +85,7 @@ function setup() {
     const bedT = pixi.Texture.from('images/bed.png');
     const deskT = pixi.Texture.from('images/desk.png');
     const dumbellT = pixi.Texture.from('images/dumbell.png');
+    //Josue: Added texture and sprite for the Start Button/startButton.png
     const startButtonT = pixi.Texture.from('images/startButton.png');
     const sleepButtonT = pixi.Texture.from('images/sleepButton.png');
     const workButtonT = pixi.Texture.from('images/workButton.png');
@@ -99,6 +100,7 @@ function setup() {
     const workButton = new pixi.Sprite(workButtonT);
     const exerciseButton = new pixi.Sprite(exerciseButtonT);
 
+    //Josue: Set visible to false (still shows up)
     duck.anchor.set(0.5);
     duck.x = app.screen.width/2;
     duck.y = app.screen.height/2;
@@ -121,11 +123,13 @@ function setup() {
         300,app.screen.height/2
     ];
 
+    //Josue: Set visible to false
     dumbell.anchor.set(0.5);
     dumbell.x = furniturePositions[0*2];
     dumbell.y = furniturePositions[0*2+1];
     dumbell.visible = false;
 
+    //Josue: Set visible to false
     bed.anchor.set(0.5);
     bed.x = furniturePositions[2*2];
     bed.y = furniturePositions[2*2+1];
@@ -133,6 +137,7 @@ function setup() {
     animatedSleeping.x = bed.x - 80;
     animatedSleeping.y = bed.y-90;
 
+    //Josue: Set visible to false
     desk.anchor.set(0.5);
     desk.x = furniturePositions[1*2];
     desk.y = furniturePositions[1*2+1];
@@ -146,24 +151,28 @@ function setup() {
     startButton.visible = true;
     app.stage.addChild(startButton);
 
+    //Josue: Set visible to false
     exerciseButton.anchor.set(0.5);
     exerciseButton.x = 60;
     exerciseButton.y = 325;
     exerciseButton.visible = false;
     app.stage.addChild(exerciseButton);
 
+    //Josue: Set visible to false
     sleepButton.anchor.set(0.5);
     sleepButton.x = 170;
     sleepButton.y = 325;
     sleepButton.visible = false;
     app.stage.addChild(sleepButton);
 
+    //Josue: Set visible to false
     workButton.anchor.set(0.5);
     workButton.x = 275;
     workButton.y = 325;
     workButton.visible = false;
     app.stage.addChild(workButton);
 
+    //Josue: Added startButton interactive and buttonMode
     startButton.interactive = true;
     startButton.buttonMode = true;
     finish.interactive = true;
@@ -175,6 +184,7 @@ function setup() {
     exerciseButton.interactive = true;
     exerciseButton.buttonMode = true;
 
+    //Josue: added startButton.on
     startButton.on('pointerdown', onButtonDownBegin);
     exerciseButton.on('pointerdown', onButtonDownE);
     sleepButton.on('pointerdown', onButtonDownS);
@@ -185,6 +195,8 @@ function setup() {
     app.stage.addChild(bed);
     app.stage.addChild(desk);
 
+    //Josue: Created function for startbutton (meant to change background and make items appear on screen)
+    //Bug Fix Necessary: Makes background cover everything else
     function onButtonDownBegin() {
         const background2 = pixi.Sprite.from('images/room2.png');
         background2.width = app.screen.width;
