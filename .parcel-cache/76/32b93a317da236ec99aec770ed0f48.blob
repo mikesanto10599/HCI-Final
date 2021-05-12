@@ -1,0 +1,34 @@
+var _phaser = require('phaser');
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+var _phaserDefault = _parcelHelpers.interopDefault(_phaser);
+var _scenesLoadingScene = require('./scenes/LoadingScene');
+var _scenesLoadingSceneDefault = _parcelHelpers.interopDefault(_scenesLoadingScene);
+var _scenesHomeScene = require('./scenes/HomeScene');
+var _scenesHomeSceneDefault = _parcelHelpers.interopDefault(_scenesHomeScene);
+var _scenesGameScene = require('./scenes/GameScene');
+var _scenesGameSceneDefault = _parcelHelpers.interopDefault(_scenesGameScene);
+// 
+var config = {
+  type: _phaserDefault.default.AUTO,
+  parent: 'body',
+  title: 'Emoji Pet',
+  pixelArt: false,
+  width: 360,
+  height: 580,
+  scene: [_scenesLoadingSceneDefault.default, _scenesHomeSceneDefault.default, _scenesGameSceneDefault.default],
+  scale: {
+    parent: 'game-container',
+    mode: _phaserDefault.default.Scale.FIT,
+    autoCenter: _phaserDefault.default.Scale.CENTER_BOTH,
+    fullscreenTarget: 'game-container'
+  },
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: {
+        y: 300
+      }
+    }
+  }
+};
+var game = new _phaserDefault.default.Game(config);
