@@ -1,6 +1,8 @@
 let type = "WebGL"
 
 let pixi = PIXI;
+var healthGraphic = new PIXI.Graphics();
+var moodGraphic = new PIXI.Graphics();
 const loader = pixi.Loader.shared;
 let animatedSprite;
 
@@ -40,6 +42,8 @@ loader
   .add("images/sleepButton.png")
   .add("images/workButton.png")
   .add("images/exerciseButton.png")
+  .add("images/mood.png")
+  .add("images/health.png")
   .load(setup);
 
 //This `setup` function will run when the image has loaded
@@ -80,6 +84,28 @@ function setup() {
     animatedSleeping.height = 200;
     animatedSleeping.visible = false;
 
+    //health bar
+    var healthBar = {
+        x: 20,
+        y: 30,
+        width: 300,
+        height: 20
+        
+    };
+
+    var health = 100;
+    var maxHealth = 100;
+
+    healthGraphic.beginFill(0x00FF00);
+    healthGraphic.lineStyle(3, 0xA5A5A5);
+    healthGraphic.drawRect(225, 10, 100, 20);
+    app.stage.addChild(graphics);
+
+    moodGraphic.beginFill(0x0000FF);
+    moodGraphic.lineStyle(3, 0xA5A5A5);
+    moodGraphic.drawRect(225, 40, 100, 20);
+    app.stage.addChild(graphics);
+
     const duckT = pixi.Texture.from('images/duck.png');
     const finishT = pixi.Texture.from('images/finish.png');
     const bedT = pixi.Texture.from('images/bed.png');
@@ -99,6 +125,8 @@ function setup() {
     const sleepButton = new pixi.Sprite(sleepButtonT);
     const workButton = new pixi.Sprite(workButtonT);
     const exerciseButton = new pixi.Sprite(exerciseButtonT);
+    const healthIcon = new pixi.Texture.from('images/health.png');
+    const moodIcon = new pixi.Texture.from('images/mood.png');
 
     //Josue: Set visible to false (still shows up)
     duck.anchor.set(0.5);
@@ -122,6 +150,14 @@ function setup() {
         50,100,
         300,app.screen.height/2
     ];
+
+    healthIcon.x = 225;
+    healthIcon.y = 10;
+    healthIcon.visible = true;
+
+    moodIcon.x = 225;
+    moodIcon.y = 40;
+    moodIcon.visible = true;
 
     //Josue: Set visible to false
     dumbell.anchor.set(0.5);
