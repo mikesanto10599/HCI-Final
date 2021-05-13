@@ -75,6 +75,7 @@ loader
   .add("images/health.png")
   .add("animations/death.json")
   .add("animations/sad.json")
+  .add("images/startOver.png")
   .load(setup);
 
 //This `setup` function will run when the image has loaded
@@ -144,6 +145,7 @@ function setup() {
     const startButtonT = pixi.Texture.from('images/startButton.png');
     const sleepButtonT = pixi.Texture.from('images/sleepButton.png');
     const workButtonT = pixi.Texture.from('images/workButton.png');
+    const startOverT = pixi.Texture.from('images/startOver.png');
     const exerciseButtonT = pixi.Texture.from('images/exerciseButton.png');
     const healthIconT = pixi.Texture.from('images/health.png');
     const moodIconT = pixi.Texture.from('images/mood.png');
@@ -158,6 +160,7 @@ function setup() {
     const exerciseButton = new pixi.Sprite(exerciseButtonT);
     const healthIcon = new pixi.Sprite(healthIconT);
     const moodIcon = new pixi.Sprite(moodIconT);
+    const startOver = new pixi.Sprite(startOverT);
     
     
     healthBar.beginFill(0xA5A5A5);
@@ -272,6 +275,12 @@ function setup() {
     workButton.visible = false;
     app.stage.addChild(workButton);
 
+    startOver.anchor.set(0.5);
+    startOver.x = 170;
+    startOver.y = 325;
+    startOver.visible = false;
+    app.stage.addChild(startOver);
+
     startButton.interactive = true;
     startButton.buttonMode = true;
     finish.interactive = true;
@@ -282,21 +291,55 @@ function setup() {
     workButton.buttonMode = true;
     exerciseButton.interactive = true;
     exerciseButton.buttonMode = true;
+    startOver.interactive = true;
+    startOver.buttonMode = true;
 
     startButton.on('pointerdown', onButtonDownBegin);
     exerciseButton.on('pointerdown', onButtonDownE);
     sleepButton.on('pointerdown', onButtonDownS);
     workButton.on('pointerdown', onButtonDownW);
     finish.on('pointerdown', onButtonDownF);
+    startOver.on('pointerdown', onButtonDownStartOver)
 
     app.stage.addChild(dumbell);
     app.stage.addChild(bed);
     app.stage.addChild(desk);
 
+    function onButtonDownStartOver(){
+        startBackground.visible = true;
+        startOver.visible = false;
+        startButton.visible = true;
+        background.visible = false;
+        exerciseButton.visible = false;
+        sleepButton.visible = false;
+        workButton.visible = false;
+        dumbell.visible = false;
+        desk.visible = false;
+        bed.visible = false;
+        this.isdown = true;
+        animatedDuck.visible = false;
+        animatedSad.visible = false;
+        animatedDeath.visible = false;
+        moodFill.visible = false;
+        moodBar.visible = false;
+        healthFill.visible = false;
+        healthBar.visible = false;
+        moodIcon.visible = false;
+        healthIcon.visible = false;
+        this.alpha = 1;
+        start = false;
+        dead = false;
+        beginTime = new Date();
+        health = 65;
+        mood = 65;
+        lastActivity = "none";
+    }
+
     function onButtonDownBegin() {
         // const background2 = pixi.Sprite.from('images/room2.png');
         start = true;
         startBackground.visble = false;
+        startOver.visible = false;
         startButton.visible = false;
         background.visible = true;
         exerciseButton.visible = true;
@@ -484,8 +527,12 @@ function setup() {
             animatedDuck.visible = false;
             animatedSad.visible = false;
             animatedDeath.visible = true;
+            startOver.visible = true;
             healthFill.visible = false;
             moodFill.visible = false;
+            exerciseButton.visible = false;
+            workButton.visible = false;
+            sleepButton.visible = false;
             dead = true;
             
         }
@@ -498,7 +545,9 @@ function setup() {
         else{
             animatedDeath.visible = false;
             animatedSad.visible = false;
-            animatedDuck.visible = true;
+            if (!doing){
+                animatedDuck.visible = true;
+            }
         }
         console.log("update");
         healthFill.clear();
