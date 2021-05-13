@@ -138,21 +138,25 @@ function setup() {
     healthBar.lineStyle(6, 0xA5A5A5);
     healthBar.drawRect(240, 40, 100, 20);
     app.stage.addChild(healthBar);
+    healthBar.visible = false;
 
     healthFill.beginFill(0x54D873);
     healthFill.lineStyle(0, 0xA5A5A5);
     healthFill.drawRect(240, 10, 65, 20);
     app.stage.addChild(healthFill);
+    healthFill.visible = false;
 
     moodBar.beginFill(0xA5A5A5);
     moodBar.lineStyle(6, 0xA5A5A5);
     moodBar.drawRect(240, 40, 100, 20);
     app.stage.addChild(moodBar);
+    moodBar.visible = false;
 
     moodFill.beginFill(0x3566D8);
     moodFill.lineStyle(0, 0x3566D8);
     moodFill.drawRect(240, 40, 65, 20);
     app.stage.addChild(moodFill);
+    moodFill.visible = false;
 
     healthIcon.x = 225;
     healthIcon.y = 10;
@@ -169,6 +173,8 @@ function setup() {
 
     app.stage.addChild(healthIcon);
     app.stage.addChild(moodIcon);
+    moodIcon.visible = false;
+    healthIcon.visible = false;
 
     //Josue: Set visible to false (still shows up)
     duck.anchor.set(0.5);
@@ -280,6 +286,12 @@ function setup() {
         bed.visible = true;
         this.isdown = true;
         animatedDuck.visible = true;
+        moodFill.visible = true;
+        moodBar.visible = true;
+        healthFill.visible = true;
+        healthBar.visible = true;
+        moodIcon.visible = true;
+        healthIcon.visible = true;
         this.alpha = 1;
     }
     
