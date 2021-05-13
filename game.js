@@ -21,11 +21,19 @@ let app = new pixi.Application({
 
 document.body.appendChild(app.view);
 //Josue: Changed the background to be the house (currently the duck is not becoming invisible)
+const startBackground = pixi.Sprite.from('images/House-1.png');
+startBackground.width = app.screen.width;
+startBackground.height = app.screen.height;
+app.stage.addChild(startBackground);
+
+
 const background = pixi.Sprite.from('images/room2.png');
-const backgroundH = pixi.Sprite.from('images/House-1.png');
 background.width = app.screen.width;
 background.height = app.screen.height;
 app.stage.addChild(background)
+background.visible = false;
+
+
 
 
 loader
@@ -68,6 +76,7 @@ function setup() {
     app.stage.addChild(animatedDuck);
     animatedDuck.height = 100;
     animatedDuck.width = 100;
+    animatedDuck.visible = false;
 
     animatedWorking.animationSpeed = 0.13; 
     animatedWorking.play();
@@ -109,7 +118,7 @@ function setup() {
     animatedDuck.x = duck.x - 70;
     animatedDuck.y = duck.y - 30;
 
-    app.stage.addChild(duck);
+    // //app.stage.addChild(duck);
 
     finish.anchor.set(0.5);
     finish.x = 80;
@@ -199,11 +208,9 @@ function setup() {
     //Josue: Created function for startbutton (meant to change background and make items appear on screen)
     //Bug Fix Necessary: Makes background cover everything else
     function onButtonDownBegin() {
-        const background2 = pixi.Sprite.from('images/room2.png');
-        background2.width = app.screen.width;
-        background2.height = app.screen.height;
-        app.stage.addChild(background2)
+        // const background2 = pixi.Sprite.from('images/room2.png');
         startButton.visible = false;
+        background.visible = true;
         exerciseButton.visible = true;
         sleepButton.visible = true;
         workButton.visible = true;
