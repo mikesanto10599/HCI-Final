@@ -1,6 +1,10 @@
 let type = "WebGL"
 
 let pixi = PIXI;
+var healthBar = new PIXI.Graphics();
+var moodBar = new PIXI.Graphics();
+var healthFill = new PIXI.Graphics();
+var moodFill = new PIXI.Graphics();
 const loader = pixi.Loader.shared;
 let animatedSprite;
 
@@ -39,6 +43,8 @@ loader
   .add("images/sleepButton.png")
   .add("images/workButton.png")
   .add("images/exerciseButton.png")
+  .add("images/mood.png")
+  .add("images/health.png")
   .load(setup);
 
 //This `setup` function will run when the image has loaded
@@ -79,6 +85,37 @@ function setup() {
     animatedSleeping.height = 200;
     animatedSleeping.visible = false;
 
+    var health = 65;
+    var maxHealth = 100;
+
+    var mood = 65;
+    var maxMood = 100;
+
+    var lastActivity;
+
+    //times
+    var exerciseStart, exerciseEnd, sleepStart, sleepEnd, workStart, workEnd;
+
+    healthBar.beginFill(0xA5A5A5);
+    healthBar.lineStyle(6, 0xA5A5A5);
+    healthBar.drawRect(240, 10, 100, 20);
+    app.stage.addChild(healthBar);
+
+    healthFill.beginFill(0x54D873);
+    healthFill.lineStyle(0, 0xA5A5A5);
+    healthFill.drawRect(240, 10, 65, 20);
+    app.stage.addChild(healthFill);
+
+    moodBar.beginFill(0xA5A5A5);
+    moodBar.lineStyle(6, 0xA5A5A5);
+    moodBar.drawRect(240, 40, 100, 20);
+    app.stage.addChild(moodBar);
+
+    moodFill.beginFill(0x3566D8);
+    moodFill.lineStyle(0, 0x3566D8);
+    moodFill.drawRect(240, 40, 65, 20);
+    app.stage.addChild(moodFill);
+
     const duckT = pixi.Texture.from('images/duck.png');
     const finishT = pixi.Texture.from('images/finish.png');
     const bedT = pixi.Texture.from('images/bed.png');
@@ -95,6 +132,16 @@ function setup() {
     const sleepButton = new pixi.Sprite(sleepButtonT);
     const workButton = new pixi.Sprite(workButtonT);
     const exerciseButton = new pixi.Sprite(exerciseButtonT);
+    const healthIcon = new pixi.Texture.from('images/health.png');
+    const moodIcon = new pixi.Texture.from('images/mood.png');
+
+    healthIcon.x = 225;
+    healthIcon.y = 10;
+    healthIcon.visible = true;
+
+    moodIcon.x = 225;
+    moodIcon.y = 40;
+    moodIcon.visible = true;
 
     duck.anchor.set(0.5);
     duck.x = app.screen.width/2;
@@ -199,6 +246,8 @@ function setup() {
         exerciseButton.visible = true;
         sleepButton.visible = true;
         workButton.visible = true;
+        //anytime an activity is finished, stats are updated based on the activity and the time spent
+        timeSpent(lastActivity);
     }
 
     function onButtonDownS() {
@@ -212,6 +261,8 @@ function setup() {
         animatedDuck.visible = false;
         animatedSleeping.visible = true;
         this.alpha = 1;
+        lastActivity = 's';
+        var sleepStart = new Date();
     }
     function onButtonDownW() {
         finish.visible = true;
@@ -223,6 +274,120 @@ function setup() {
         animatedDuck.visible = false;
         animatedWorking.visible = true;
         this.alpha = 1;
+        lastActivity = 'w';
+        var workStart = new Date();
     }
 
+    //calculates the time elapsed since an activity was last done, and updates stats accordingly
+    function timeSince(activity){
+        var now = new Date()
+        if (activity == 'e'){
+            time = Math.round((now - exerciseEnd) / 1000);
+            if ((time/60 > 1)){
+                health -= (time/60) * 10;
+                mood -= (time/60) * 5;
+            }
+        
+            update(health, mood);
+        }
+        else if (activity == 's'){
+            time = Math.round((now - sleepEnd) / 1000);
+            if ((time/300 > 1)){
+                health -= (time/300) * 10;
+                mood -= (time/300) * 5;
+            }            
+            update(health, mood);
+        }
+        else if (activity == 'w'){
+            time = Math.round((now - workEnd) / 1000);
+            if ((time/60 > 1)){
+                mood += (time/60) * 5;
+            }
+            update(health, mood);
+        }
+    }
+
+    //calculates the time spent doing an activity, and updates stats accordingly
+    function timeSpent(activity){
+        var now = new Date()
+        if (activity == 'e'){
+            exerciseEnd = now;
+            time = Math.round((now - exerciseStart) / 1000);
+            if ((time / 10) > 1){
+                health += (time/10) * 5;
+                if (health > maxHealth){
+                    health = 100;
+                }
+            }
+            if ((time / 20) > 1){
+                mood += (time/20) * 5;
+                if (mood > maxMood){
+                    mood = 100;
+                }
+            }
+            update(health, mood);
+        }
+        else if (activity == 's'){
+            sleepEnd = now;
+            time = Math.round((now - sleepStart) / 1000);
+            if ((time / 5) > 1){
+                health += (time/5);
+                if (health > maxHealth){
+                    health = 100;
+                }
+            }
+            if ((time / 5) > 1){
+                mood += (time/5);
+                if (mood > maxMood){
+                    mood = 100;
+                }
+            }
+            update(health, mood);
+        }
+        else if (activity == 'w'){
+            workEnd = now;
+            time = Math.round((now - workStart) / 1000);
+            if ((time / 30) > 1){
+                health += (time/30) * 5;
+                if (health > maxHealth){
+                    health = 100;
+                }
+            }
+            if ((time / 10) > 1){
+                mood -= (time/10) * 5;
+                if (mood < 0){
+                    mood = 0;
+                }
+            }
+            update(health, mood);
+        }
+    }
+
+    //redraws the health and mood bars based on updates from activities/lack of activities
+    function update(health, mood){
+        healthFill.clear();
+        healthFill.beginFill(0x54D873);
+        healthFill.lineStyle(0, 0xA5A5A5);
+        healthFill.drawRect(240, 10, health, 20);
+        app.stage.addChild(healthFill);
+
+        moodFill.clear();
+        moodFill.beginFill(0x3566D8);
+        moodFill.lineStyle(0, 0x3566D8);
+        moodFill.drawRect(240, 40, mood, 20);
+        app.stage.addChild(moodFill);
+    }
+
+    //checks time elapsed since each activity was done and updates stats accordingly
+    function statCheck(){
+        timeSince('e');
+        timeSince('s');
+        timeSince('w');
+    }
+
+    //checks every two minutes
+    setInterval(statCheck(), 120000);
+
 }
+
+
