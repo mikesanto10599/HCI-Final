@@ -58,11 +58,15 @@ function setup() {
     let duckSheet = pixi.Loader.shared.resources["animations/duck.json"].spritesheet;
     let workingSheet = pixi.Loader.shared.resources["animations/working.json"].spritesheet;
     let sleepingSheet = pixi.Loader.shared.resources["animations/sleeping.json"].spritesheet;
+    let deathSheet = pixi.Loader.shared.resources["animations/death.json"].spritesheet;
+    let sadSheet = pixi.Loader.shared.resources["animations/sad.json"].spritesheet;
     //animations
     animatedExercise = new pixi.AnimatedSprite(exerciseSheet.animations["exercise"]);
     animatedDuck = new pixi.AnimatedSprite(duckSheet.animations["duck"]);
     animatedWorking = new pixi.AnimatedSprite(workingSheet.animations["working"]);
     animatedSleeping = new pixi.AnimatedSprite(sleepingSheet.animations["sleeping"]);
+    animatedDeath = new pixi.AnimatedSprite(deathSheet.animations["death"]);
+    animatedSad = new pixi.AnimatedSprite(deathSheet.animations["sad"]);
 
     animatedExercise.animationSpeed = 0.13; 
     animatedExercise.play();
@@ -70,6 +74,20 @@ function setup() {
     animatedExercise.visible = false;
     animatedExercise.height = 100;
     animatedExercise.width = 100;
+
+    animatedSad.animationSpeed = 0.13; 
+    animatedSad.play();
+    app.stage.addChild(animatedSad);
+    animatedSad.visible = false;
+    animatedSad.height = 100;
+    animatedSad.width = 100;
+
+    animatedDeath.animationSpeed = 0.13; 
+    animatedDeath.play();
+    app.stage.addChild(animatedDeath);
+    animatedDeath.visible = false;
+    animatedDeath.height = 100;
+    animatedDeath.width = 100;
 
     animatedDuck.animationSpeed = 0.13; 
     animatedDuck.play();
@@ -133,13 +151,11 @@ function setup() {
         300,app.screen.height/2
     ];
 
-    //Josue: Set visible to false
     dumbell.anchor.set(0.5);
     dumbell.x = furniturePositions[0*2];
     dumbell.y = furniturePositions[0*2+1];
     dumbell.visible = false;
 
-    //Josue: Set visible to false
     bed.anchor.set(0.5);
     bed.x = furniturePositions[2*2];
     bed.y = furniturePositions[2*2+1];
@@ -147,7 +163,6 @@ function setup() {
     animatedSleeping.x = bed.x - 80;
     animatedSleeping.y = bed.y-90;
 
-    //Josue: Set visible to false
     desk.anchor.set(0.5);
     desk.x = furniturePositions[1*2];
     desk.y = furniturePositions[1*2+1];
@@ -161,28 +176,24 @@ function setup() {
     startButton.visible = true;
     app.stage.addChild(startButton);
 
-    //Josue: Set visible to false
     exerciseButton.anchor.set(0.5);
     exerciseButton.x = 60;
     exerciseButton.y = 325;
     exerciseButton.visible = false;
     app.stage.addChild(exerciseButton);
 
-    //Josue: Set visible to false
     sleepButton.anchor.set(0.5);
     sleepButton.x = 170;
     sleepButton.y = 325;
     sleepButton.visible = false;
     app.stage.addChild(sleepButton);
 
-    //Josue: Set visible to false
     workButton.anchor.set(0.5);
     workButton.x = 275;
     workButton.y = 325;
     workButton.visible = false;
     app.stage.addChild(workButton);
 
-    //Josue: Added startButton interactive and buttonMode
     startButton.interactive = true;
     startButton.buttonMode = true;
     finish.interactive = true;
@@ -194,7 +205,6 @@ function setup() {
     exerciseButton.interactive = true;
     exerciseButton.buttonMode = true;
 
-    //Josue: added startButton.on
     startButton.on('pointerdown', onButtonDownBegin);
     exerciseButton.on('pointerdown', onButtonDownE);
     sleepButton.on('pointerdown', onButtonDownS);
@@ -205,8 +215,6 @@ function setup() {
     app.stage.addChild(bed);
     app.stage.addChild(desk);
 
-    //Josue: Created function for startbutton (meant to change background and make items appear on screen)
-    //Bug Fix Necessary: Makes background cover everything else
     function onButtonDownBegin() {
         // const background2 = pixi.Sprite.from('images/room2.png');
         startBackground.visble = false;
