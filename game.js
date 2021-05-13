@@ -158,15 +158,15 @@ function setup() {
     app.stage.addChild(moodFill);
     moodFill.visible = false;
 
-    healthIcon.x = 225;
-    healthIcon.y = 10;
+    healthIcon.x = 200;
+    healthIcon.y = 6;
     healthIcon.width = healthIcon.width * 2;
     healthIcon.height = healthIcon.height * 2;
     healthIcon.visible = true;
     
 
-    moodIcon.x = 225;
-    moodIcon.y = 40;
+    moodIcon.x = 203;
+    moodIcon.y = 35;
     moodIcon.width = moodIcon.width * 2;
     moodIcon.height = moodIcon.height * 2;
     moodIcon.visible = true;
