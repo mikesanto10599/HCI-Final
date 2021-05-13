@@ -162,6 +162,25 @@ function setup() {
     const moodIcon = new pixi.Sprite(moodIconT);
     const startOver = new pixi.Sprite(startOverT);
     
+
+    healthIcon.x = 198;
+    healthIcon.y = 2;
+    healthIcon.width = healthIcon.width * 2;
+    healthIcon.height = healthIcon.height * 2;
+    healthIcon.visible = true;
+    
+
+    moodIcon.x = 202;
+    moodIcon.y = 30;
+    moodIcon.width = moodIcon.width * 2;
+    moodIcon.height = moodIcon.height * 2;
+    moodIcon.visible = true;
+
+    app.stage.addChild(healthIcon);
+    app.stage.addChild(moodIcon);
+    moodIcon.visible = false;
+    healthIcon.visible = false;
+
     
     healthBar.beginFill(0xA5A5A5);
     healthBar.lineStyle(6, 0xA5A5A5);
@@ -186,25 +205,7 @@ function setup() {
     moodFill.drawRect(240, 37, 65, 20);
     app.stage.addChild(moodFill);
     moodFill.visible = false;
-
-    healthIcon.x = 198;
-    healthIcon.y = 2;
-    healthIcon.width = healthIcon.width * 2;
-    healthIcon.height = healthIcon.height * 2;
-    healthIcon.visible = true;
     
-
-    moodIcon.x = 202;
-    moodIcon.y = 30;
-    moodIcon.width = moodIcon.width * 2;
-    moodIcon.height = moodIcon.height * 2;
-    moodIcon.visible = true;
-
-    app.stage.addChild(healthIcon);
-    app.stage.addChild(moodIcon);
-    moodIcon.visible = false;
-    healthIcon.visible = false;
-
     //Josue: Set visible to false (still shows up)
     duck.anchor.set(0.5);
     duck.x = app.screen.width/2;
