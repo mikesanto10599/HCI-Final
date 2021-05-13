@@ -8,18 +8,6 @@ var moodFill = new PIXI.Graphics();
 const loader = pixi.Loader.shared;
 let animatedSprite;
 
-//global
-var health = 65;
-var maxHealth = 100;
-
-var mood = 65;
-var maxMood = 100;
-
-var lastActivity;
-
-//times
-var exerciseStart, exerciseEnd, sleepStart, sleepEnd, workStart, workEnd;
-
 if(!pixi.utils.isWebGLSupported()){
     type = "canvas"
 }
@@ -36,8 +24,8 @@ let app = new pixi.Application({
 );
 
 document.body.appendChild(app.view);
-
-const background = pixi.Sprite.from('images/room2.png');
+//Josue: Changed the background to be the house (currently the duck is not becoming invisible)
+const background = pixi.Sprite.from('images/House-1.png');
 background.width = app.screen.width;
 background.height = app.screen.height;
 app.stage.addChild(background)
@@ -52,6 +40,7 @@ loader
   .add("animations/exercise.json")
   .add("animations/working.json")
   .add("animations/sleeping.json")
+  .add("images/startButton.png")
   .add("images/sleepButton.png")
   .add("images/workButton.png")
   .add("images/exerciseButton.png")
@@ -97,37 +86,25 @@ function setup() {
     animatedSleeping.height = 200;
     animatedSleeping.visible = false;
 
+    var health = 100;
+    var maxHealth = 100;
 
-    const duckT = pixi.Texture.from('images/duck.png');
-    const finishT = pixi.Texture.from('images/finish.png');
-    const bedT = pixi.Texture.from('images/bed.png');
-    const deskT = pixi.Texture.from('images/desk.png');
-    const dumbellT = pixi.Texture.from('images/dumbell.png');
-    const sleepButtonT = pixi.Texture.from('images/sleepButton.png');
-    const workButtonT = pixi.Texture.from('images/workButton.png');
-    const exerciseButtonT = pixi.Texture.from('images/exerciseButton.png');
-    const healthIconT = pixi.Texture.from('images/health.png');
-    const moodIconT = pixi.Texture.from('images/mood.png');
-    const duck = new pixi.Sprite(duckT);
-    const finish = new pixi.Sprite(finishT);
-    const bed = new pixi.Sprite(bedT); 
-    const desk = new pixi.Sprite(deskT);
-    const dumbell = new pixi.Sprite(dumbellT);
-    const sleepButton = new pixi.Sprite(sleepButtonT);
-    const workButton = new pixi.Sprite(workButtonT);
-    const exerciseButton = new pixi.Sprite(exerciseButtonT);
-    const healthIcon = new pixi.Sprite(healthIconT);
-    const moodIcon = new pixi.Sprite(moodIconT);
-    
-    
+    var mood = 100;
+    var maxMood = 100;
+
+    var lastActivity;
+
+    //times
+    var exerciseStart, exerciseEnd, sleepStart, sleepEnd, workStart, workEnd;
+
     healthBar.beginFill(0xA5A5A5);
     healthBar.lineStyle(6, 0xA5A5A5);
-    healthBar.drawRect(240, 40, 100, 20);
+    healthBar.drawRect(240, 10, 100, 20);
     app.stage.addChild(healthBar);
 
     healthFill.beginFill(0x54D873);
     healthFill.lineStyle(0, 0xA5A5A5);
-    healthFill.drawRect(240, 10, 65, 20);
+    healthFill.drawRect(240, 10, 100, 20);
     app.stage.addChild(healthFill);
 
     moodBar.beginFill(0xA5A5A5);
@@ -137,25 +114,32 @@ function setup() {
 
     moodFill.beginFill(0x3566D8);
     moodFill.lineStyle(0, 0x3566D8);
-    moodFill.drawRect(240, 40, 65, 20);
+    moodFill.drawRect(240, 40, 100, 20);
     app.stage.addChild(moodFill);
 
-    healthIcon.x = 225;
-    healthIcon.y = 10;
-    healthIcon.width = healthIcon.width * 2;
-    healthIcon.height = healthIcon.height * 2;
-    healthIcon.visible = true;
-    
+    const duckT = pixi.Texture.from('images/duck.png');
+    const finishT = pixi.Texture.from('images/finish.png');
+    const bedT = pixi.Texture.from('images/bed.png');
+    const deskT = pixi.Texture.from('images/desk.png');
+    const dumbellT = pixi.Texture.from('images/dumbell.png');
+    //Josue: Added texture and sprite for the Start Button/startButton.png
+    const startButtonT = pixi.Texture.from('images/startButton.png');
+    const sleepButtonT = pixi.Texture.from('images/sleepButton.png');
+    const workButtonT = pixi.Texture.from('images/workButton.png');
+    const exerciseButtonT = pixi.Texture.from('images/exerciseButton.png');
+    const duck = new pixi.Sprite(duckT);
+    const finish = new pixi.Sprite(finishT);
+    const bed = new pixi.Sprite(bedT); 
+    const desk = new pixi.Sprite(deskT);
+    const dumbell = new pixi.Sprite(dumbellT);
+    const startButton = new pixi.Sprite(startButtonT);
+    const sleepButton = new pixi.Sprite(sleepButtonT);
+    const workButton = new pixi.Sprite(workButtonT);
+    const exerciseButton = new pixi.Sprite(exerciseButtonT);
+    const healthIcon = new pixi.Texture.from('images/health.png');
+    const moodIcon = new pixi.Texture.from('images/mood.png');
 
-    moodIcon.x = 225;
-    moodIcon.y = 40;
-    moodIcon.width = moodIcon.width * 2;
-    moodIcon.height = moodIcon.height * 2;
-    moodIcon.visible = true;
-
-    app.stage.addChild(healthIcon);
-    app.stage.addChild(moodIcon);
-
+    //Josue: Set visible to false (still shows up)
     duck.anchor.set(0.5);
     duck.x = app.screen.width/2;
     duck.y = app.screen.height/2;
@@ -178,40 +162,66 @@ function setup() {
         300,app.screen.height/2
     ];
 
+    healthIcon.x = 225;
+    healthIcon.y = 10;
+    healthIcon.visible = true;
+
+    moodIcon.x = 225;
+    moodIcon.y = 40;
+    moodIcon.visible = true;
+
+    //Josue: Set visible to false
     dumbell.anchor.set(0.5);
     dumbell.x = furniturePositions[0*2];
     dumbell.y = furniturePositions[0*2+1];
+    dumbell.visible = false;
 
+    //Josue: Set visible to false
     bed.anchor.set(0.5);
     bed.x = furniturePositions[2*2];
     bed.y = furniturePositions[2*2+1];
+    bed.visible = false;
     animatedSleeping.x = bed.x - 80;
     animatedSleeping.y = bed.y-90;
 
+    //Josue: Set visible to false
     desk.anchor.set(0.5);
     desk.x = furniturePositions[1*2];
     desk.y = furniturePositions[1*2+1];
+    desk.visible = false;
     animatedWorking.x = desk.x-75;
     animatedWorking.y = desk.y-80;
 
+    startButton.anchor.set(0.5);
+    startButton.x = 170;
+    startButton.y = 180;
+    startButton.visible = true;
+    app.stage.addChild(startButton);
+
+    //Josue: Set visible to false
     exerciseButton.anchor.set(0.5);
     exerciseButton.x = 60;
     exerciseButton.y = 325;
-    exerciseButton.visible = true;
+    exerciseButton.visible = false;
     app.stage.addChild(exerciseButton);
 
+    //Josue: Set visible to false
     sleepButton.anchor.set(0.5);
     sleepButton.x = 170;
     sleepButton.y = 325;
-    sleepButton.visible = true;
+    sleepButton.visible = false;
     app.stage.addChild(sleepButton);
 
+    //Josue: Set visible to false
     workButton.anchor.set(0.5);
     workButton.x = 275;
     workButton.y = 325;
-    workButton.visible = true;
+    workButton.visible = false;
     app.stage.addChild(workButton);
 
+    //Josue: Added startButton interactive and buttonMode
+    startButton.interactive = true;
+    startButton.buttonMode = true;
     finish.interactive = true;
     finish.buttonMode = true;
     sleepButton.interactive = true;
@@ -221,7 +231,8 @@ function setup() {
     exerciseButton.interactive = true;
     exerciseButton.buttonMode = true;
 
-
+    //Josue: added startButton.on
+    startButton.on('pointerdown', onButtonDownBegin);
     exerciseButton.on('pointerdown', onButtonDownE);
     sleepButton.on('pointerdown', onButtonDownS);
     workButton.on('pointerdown', onButtonDownW);
@@ -230,6 +241,25 @@ function setup() {
     app.stage.addChild(dumbell);
     app.stage.addChild(bed);
     app.stage.addChild(desk);
+
+    //Josue: Created function for startbutton (meant to change background and make items appear on screen)
+    //Bug Fix Necessary: Makes background cover everything else
+    function onButtonDownBegin() {
+        const background2 = pixi.Sprite.from('images/room2.png');
+        background2.width = app.screen.width;
+        background2.height = app.screen.height;
+        app.stage.addChild(background2)
+        startButton.visible = false;
+        exerciseButton.visible = true;
+        sleepButton.visible = true;
+        workButton.visible = true;
+        dumbell.visible = true;
+        desk.visible = true;
+        bed.visible = true;
+        this.isdown = true;
+        animatedDuck.visible = true;
+        this.alpha = 1;
+    }
     
     function onButtonDownE() {
         finish.visible = true;
@@ -243,7 +273,8 @@ function setup() {
         animatedExercise.visible = true; 
         animatedDuck.visible = false;
         this.alpha = 1;
-        exerciseStart = new Date();
+        lastActivity = 'e';
+        var exerciseStart = new Date();
     }
 
     function onButtonDownF() {
@@ -276,7 +307,7 @@ function setup() {
         animatedSleeping.visible = true;
         this.alpha = 1;
         lastActivity = 's';
-        sleepStart = new Date();
+        var sleepStart = new Date();
     }
     function onButtonDownW() {
         finish.visible = true;
@@ -289,7 +320,7 @@ function setup() {
         animatedWorking.visible = true;
         this.alpha = 1;
         lastActivity = 'w';
-        workStart = new Date();
+        var workStart = new Date();
     }
 
     //calculates the time elapsed since an activity was last done, and updates stats accordingly
@@ -323,7 +354,6 @@ function setup() {
 
     //calculates the time spent doing an activity, and updates stats accordingly
     function timeSpent(activity){
-        console.log("timeSpent")
         var now = new Date()
         if (activity == 'e'){
             exerciseEnd = now;
@@ -380,7 +410,6 @@ function setup() {
 
     //redraws the health and mood bars based on updates from activities/lack of activities
     function update(health, mood){
-        console.log("update");
         healthFill.clear();
         healthFill.beginFill(0x54D873);
         healthFill.lineStyle(0, 0xA5A5A5);
@@ -396,7 +425,6 @@ function setup() {
 
     //checks time elapsed since each activity was done and updates stats accordingly
     function statCheck(){
-        console.log("statcheck");
         timeSince('e');
         timeSince('s');
         timeSince('w');
@@ -406,5 +434,3 @@ function setup() {
     setInterval(statCheck(), 120000);
 
 }
-
-
