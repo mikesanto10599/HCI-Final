@@ -71,6 +71,8 @@ loader
   .add("images/exerciseButton.png")
   .add("images/mood.png")
   .add("images/health.png")
+  .add("animations/death.json")
+  .add("animations/sad.json")
   .load(setup);
 
 //This `setup` function will run when the image has loaded
