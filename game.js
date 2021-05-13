@@ -376,6 +376,7 @@ function setup() {
         animatedSad.visible = false;
         animatedDeath.visible = false;
         this.alpha = 1;
+        lastActivity = 'e';
         exerciseStart = new Date();
         doing = true;
     }
@@ -469,32 +470,36 @@ function setup() {
         console.log("timeSpent")
         var now = new Date()
         if (activity == 'e'){
+            console.log("Ex");
             exerciseEnd = now;
             time = Math.round((now - exerciseStart) / 1000);
-            if ((time / 10) > 1){
+            if ((time / 10) >= 1){
                 health += (time/10) * 5;
                 if (health > maxHealth){
                     health = 100;
                 }
             }
-            if ((time / 20) > 1){
+            if ((time / 20) >= 1){
                 mood += (time/20) * 5;
                 if (mood > maxMood){
                     mood = 100;
                 }
             }
+            console.log("e" + health);
+            console.log("e" + mood);
             update(health, mood);
         }
         else if (activity == 's'){
             sleepEnd = now;
+            console.log("Sleep");
             time = Math.round((now - sleepStart) / 1000);
-            if ((time / 5) > 1){
+            if ((time / 5) >= 1){
                 health += (time/5);
                 if (health > maxHealth){
                     health = 100;
                 }
             }
-            if ((time / 5) > 1){
+            if ((time / 5) >= 1){
                 mood += (time/5);
                 if (mood > maxMood){
                     mood = 100;
@@ -504,14 +509,15 @@ function setup() {
         }
         else if (activity == 'w'){
             workEnd = now;
+            console.log("work");
             time = Math.round((now - workStart) / 1000);
-            if ((time / 30) > 1){
+            if ((time / 30) >= 1){
                 health += (time/30) * 5;
                 if (health > maxHealth){
                     health = 100;
                 }
             }
-            if ((time / 10) > 1){
+            if ((time / 10) >= 1){
                 mood -= (time/10) * 5;
                 if (mood < 0){
                     mood = 0;
@@ -519,6 +525,7 @@ function setup() {
             }
             update(health, mood);
         }
+        
     }
 
     //redraws the health and mood bars based on updates from activities/lack of activities
@@ -537,9 +544,11 @@ function setup() {
             
         }
         else if (health <= 35 || mood <= 35){
-            animatedDuck.visible = false;
-            animatedSad.visible = true;
-            animatedDeath.visible = false;
+            if (!doing){
+                animatedDuck.visible = false;
+                animatedSad.visible = true;
+                animatedDeath.visible = false;
+            }
         }
          
         else{
