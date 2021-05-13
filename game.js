@@ -209,6 +209,7 @@ function setup() {
     //Bug Fix Necessary: Makes background cover everything else
     function onButtonDownBegin() {
         // const background2 = pixi.Sprite.from('images/room2.png');
+        startBackground.visble = false;
         startButton.visible = false;
         background.visible = true;
         exerciseButton.visible = true;
