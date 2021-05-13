@@ -1,0 +1,79 @@
+{"frames": {
+
+"death_01.png":
+{
+	"frame": {"x":1,"y":1,"w":126,"h":127},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":126,"h":127},
+	"sourceSize": {"w":160,"h":160}
+},
+"death_02.png":
+{
+	"frame": {"x":1,"y":130,"w":126,"h":127},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":34,"y":4,"w":126,"h":127},
+	"sourceSize": {"w":160,"h":160}
+},
+"death_03.png":
+{
+	"frame": {"x":1,"y":259,"w":126,"h":127},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":126,"h":127},
+	"sourceSize": {"w":160,"h":160}
+},
+"death_04.png":
+{
+	"frame": {"x":1,"y":388,"w":126,"h":127},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":34,"y":4,"w":126,"h":127},
+	"sourceSize": {"w":160,"h":160}
+},
+"death_05.png":
+{
+	"frame": {"x":1,"y":517,"w":126,"h":127},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":126,"h":127},
+	"sourceSize": {"w":160,"h":160}
+},
+"death_06.png":
+{
+	"frame": {"x":1,"y":646,"w":126,"h":127},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":34,"y":4,"w":126,"h":127},
+	"sourceSize": {"w":160,"h":160}
+},
+"death_07.png":
+{
+	"frame": {"x":1,"y":775,"w":136,"h":122},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":136,"h":122},
+	"sourceSize": {"w":160,"h":160}
+},
+"death_08.png":
+{
+	"frame": {"x":1,"y":913,"w":131,"h":122},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":4,"w":131,"h":122},
+	"sourceSize": {"w":160,"h":160}
+}},
+"animations": {
+	"death": ["death_01.png","death_02.png","death_03.png","death_04.png","death_05.png","death_06.png","death_07.png","death_08.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "death.png",
+	"format": "RGBA8888",
+	"size": {"w":128,"h":1045},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:f9ed1616f79a0145a74bfe4ba69fd12a:560a095279171117e855f8767ccccd8f:572aa1586ae03ed41df9ba84da44551f$"
+}
+}
