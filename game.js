@@ -20,6 +20,8 @@ var maxMood = 100;
 var lastActivity = "none";
 
 var doing = false;
+var dead = false;
+var start = false;
 
 //times
 var exerciseStart, exerciseEnd, sleepStart, sleepEnd, workStart, workEnd;
@@ -106,7 +108,7 @@ function setup() {
     animatedSad.height = 100;
     animatedSad.width = 100;
 
-    animatedDeath.animationSpeed = 0.13; 
+    animatedDeath.animationSpeed = 0.05; 
     animatedDeath.play();
     app.stage.addChild(animatedDeath);
     animatedDeath.visible = false;
@@ -207,6 +209,10 @@ function setup() {
     duck.visible = false;
     animatedDuck.x = duck.x - 70;
     animatedDuck.y = duck.y - 30;
+    animatedDeath.x = animatedDuck.x;
+    animatedDeath.y = animatedDuck.y;
+    animatedSad.x = animatedDuck.x;
+    animatedSad.y = animatedDuck.y;
 
     // //app.stage.addChild(duck);
 
@@ -289,6 +295,7 @@ function setup() {
 
     function onButtonDownBegin() {
         // const background2 = pixi.Sprite.from('images/room2.png');
+        start = true;
         startBackground.visble = false;
         startButton.visible = false;
         background.visible = true;
@@ -300,6 +307,8 @@ function setup() {
         bed.visible = true;
         this.isdown = true;
         animatedDuck.visible = true;
+        animatedSad.visible = false;
+        animatedDeath.visible = false;
         moodFill.visible = true;
         moodBar.visible = true;
         healthFill.visible = true;
@@ -321,6 +330,8 @@ function setup() {
         animatedExercise.y = dumbell.y - 50;
         animatedExercise.visible = true; 
         animatedDuck.visible = false;
+        animatedSad.visible = false;
+        animatedDeath.visible = false;
         this.alpha = 1;
         exerciseStart = new Date();
         doing = true;
@@ -335,6 +346,8 @@ function setup() {
         animatedSleeping.visible = false;
         animatedWorking.visible = false;
         animatedDuck.visible = true;
+        animatedSad.visible = false;
+        animatedDeath.visible = false;
         this.alpha = 1;
         finish.visible = false;
         exerciseButton.visible = true;
@@ -354,6 +367,8 @@ function setup() {
         bed.visible = false;
         //bed.visible = false;
         animatedDuck.visible = false;
+        animatedSad.visible = false;
+        animatedDeath.visible = false;
         animatedSleeping.visible = true;
         this.alpha = 1;
         lastActivity = 's';
@@ -368,6 +383,8 @@ function setup() {
         this.isdown = true;
         desk.visible = false;
         animatedDuck.visible = false;
+        animatedSad.visible = false;
+        animatedDeath.visible = false;
         animatedWorking.visible = true;
         this.alpha = 1;
         lastActivity = 'w';
@@ -463,11 +480,25 @@ function setup() {
 
     //redraws the health and mood bars based on updates from activities/lack of activities
     function update(health, mood){
-        if (health <= 0){
-            health = 0;
+        if (health <= 0 || mood <= 0){
+            animatedDuck.visible = false;
+            animatedSad.visible = false;
+            animatedDeath.visible = true;
+            healthFill.visible = false;
+            moodFill.visible = false;
+            dead = true;
+            
         }
-        if (mood <= 0){
-            mood = 0;
+        else if (health <= 35 || mood <= 35){
+            animatedDuck.visible = false;
+            animatedSad.visible = true;
+            animatedDeath.visible = false;
+        }
+         
+        else{
+            animatedDeath.visible = false;
+            animatedSad.visible = false;
+            animatedDuck.visible = true;
         }
         console.log("update");
         healthFill.clear();
@@ -486,7 +517,7 @@ function setup() {
     //checks time elapsed since each activity was done and updates stats accordingly
     function statCheck(){
         console.log("statcheck");
-        if (!doing){
+        if ((!doing || !dead) && start){
             if (lastActivity == "none"){
                 exerciseEnd = beginTime;
                 sleepEnd = beginTime;
