@@ -66,7 +66,7 @@ function setup() {
     animatedWorking = new pixi.AnimatedSprite(workingSheet.animations["working"]);
     animatedSleeping = new pixi.AnimatedSprite(sleepingSheet.animations["sleeping"]);
     animatedDeath = new pixi.AnimatedSprite(deathSheet.animations["death"]);
-    animatedSad = new pixi.AnimatedSprite(deathSheet.animations["sad"]);
+    animatedSad = new pixi.AnimatedSprite(sadSheet.animations["sad"]);
 
     animatedExercise.animationSpeed = 0.13; 
     animatedExercise.play();
