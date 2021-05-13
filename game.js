@@ -21,7 +21,8 @@ let app = new pixi.Application({
 
 document.body.appendChild(app.view);
 //Josue: Changed the background to be the house (currently the duck is not becoming invisible)
-const background = pixi.Sprite.from('images/House-1.png');
+const background = pixi.Sprite.from('images/room2.png');
+const backgroundH = pixi.Sprite.from('images/House-1.png');
 background.width = app.screen.width;
 background.height = app.screen.height;
 app.stage.addChild(background)
