@@ -9,13 +9,17 @@ const loader = pixi.Loader.shared;
 let animatedSprite;
 
 //global
+
+var beginTime = new Date();
 var health = 65;
 var maxHealth = 100;
 
 var mood = 65;
 var maxMood = 100;
 
-var lastActivity;
+var lastActivity = "none";
+
+var doing = false;
 
 //times
 var exerciseStart, exerciseEnd, sleepStart, sleepEnd, workStart, workEnd;
@@ -136,37 +140,37 @@ function setup() {
     
     healthBar.beginFill(0xA5A5A5);
     healthBar.lineStyle(6, 0xA5A5A5);
-    healthBar.drawRect(240, 40, 100, 20);
+    healthBar.drawRect(240, 7, 100, 20);
     app.stage.addChild(healthBar);
     healthBar.visible = false;
 
     healthFill.beginFill(0x54D873);
     healthFill.lineStyle(0, 0xA5A5A5);
-    healthFill.drawRect(240, 10, 65, 20);
+    healthFill.drawRect(240, 7, 65, 20);
     app.stage.addChild(healthFill);
     healthFill.visible = false;
 
     moodBar.beginFill(0xA5A5A5);
     moodBar.lineStyle(6, 0xA5A5A5);
-    moodBar.drawRect(240, 40, 100, 20);
+    moodBar.drawRect(240, 37, 100, 20);
     app.stage.addChild(moodBar);
     moodBar.visible = false;
 
     moodFill.beginFill(0x3566D8);
     moodFill.lineStyle(0, 0x3566D8);
-    moodFill.drawRect(240, 40, 65, 20);
+    moodFill.drawRect(240, 37, 65, 20);
     app.stage.addChild(moodFill);
     moodFill.visible = false;
 
-    healthIcon.x = 200;
-    healthIcon.y = 6;
+    healthIcon.x = 198;
+    healthIcon.y = 2;
     healthIcon.width = healthIcon.width * 2;
     healthIcon.height = healthIcon.height * 2;
     healthIcon.visible = true;
     
 
-    moodIcon.x = 203;
-    moodIcon.y = 35;
+    moodIcon.x = 202;
+    moodIcon.y = 30;
     moodIcon.width = moodIcon.width * 2;
     moodIcon.height = moodIcon.height * 2;
     moodIcon.visible = true;
@@ -293,6 +297,7 @@ function setup() {
         moodIcon.visible = true;
         healthIcon.visible = true;
         this.alpha = 1;
+        beginTime = new Date();
     }
     
     function onButtonDownE() {
@@ -308,6 +313,7 @@ function setup() {
         animatedDuck.visible = false;
         this.alpha = 1;
         exerciseStart = new Date();
+        doing = true;
     }
 
     function onButtonDownF() {
@@ -324,6 +330,7 @@ function setup() {
         exerciseButton.visible = true;
         sleepButton.visible = true;
         workButton.visible = true;
+        doing = false;
         //anytime an activity is finished, stats are updated based on the activity and the time spent
         timeSpent(lastActivity);
     }
@@ -341,6 +348,7 @@ function setup() {
         this.alpha = 1;
         lastActivity = 's';
         sleepStart = new Date();
+        doing = true;
     }
     function onButtonDownW() {
         finish.visible = true;
@@ -354,6 +362,7 @@ function setup() {
         this.alpha = 1;
         lastActivity = 'w';
         workStart = new Date();
+        doing = true;
     }
 
     //calculates the time elapsed since an activity was last done, and updates stats accordingly
@@ -370,9 +379,9 @@ function setup() {
         }
         else if (activity == 's'){
             time = Math.round((now - sleepEnd) / 1000);
-            if ((time/300 > 1)){
-                health -= (time/300) * 10;
-                mood -= (time/300) * 5;
+            if ((time/20 > 1)){
+                health -= (time/20) * 5;
+                mood -= (time/20) * 5;
             }            
             update(health, mood);
         }
@@ -444,30 +453,45 @@ function setup() {
 
     //redraws the health and mood bars based on updates from activities/lack of activities
     function update(health, mood){
+        if (health <= 0){
+            health = 0;
+        }
+        if (mood <= 0){
+            mood = 0;
+        }
         console.log("update");
         healthFill.clear();
         healthFill.beginFill(0x54D873);
         healthFill.lineStyle(0, 0xA5A5A5);
-        healthFill.drawRect(240, 10, health, 20);
+        healthFill.drawRect(240, 7, health, 20);
         app.stage.addChild(healthFill);
 
         moodFill.clear();
         moodFill.beginFill(0x3566D8);
         moodFill.lineStyle(0, 0x3566D8);
-        moodFill.drawRect(240, 40, mood, 20);
+        moodFill.drawRect(240, 37, mood, 20);
         app.stage.addChild(moodFill);
     }
 
     //checks time elapsed since each activity was done and updates stats accordingly
     function statCheck(){
         console.log("statcheck");
-        timeSince('e');
-        timeSince('s');
-        timeSince('w');
+        if (!doing){
+            if (lastActivity == "none"){
+                exerciseEnd = beginTime;
+                sleepEnd = beginTime;
+            }
+            timeSince('e');
+            timeSince('s');
+            console.log(health);
+            console.log(mood);
+    }
     }
 
-    //checks every two minutes
-    setInterval(statCheck(), 120000);
+    //checks every thirty seconds
+    setInterval(function(){
+        statCheck()
+    }, 30000);
 
 }
 
