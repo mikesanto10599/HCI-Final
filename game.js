@@ -473,8 +473,8 @@ function setup() {
             console.log("Ex");
             exerciseEnd = now;
             time = Math.round((now - exerciseStart) / 1000);
-            if ((time / 10) >= 1){
-                health += (time/10) * 5;
+            if ((time / 5) >= 1){
+                health += (time/5) * 5;
                 if (health > maxHealth){
                     health = 100;
                 }
